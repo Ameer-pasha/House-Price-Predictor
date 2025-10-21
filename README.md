@@ -82,6 +82,11 @@ california-house-predictor/
 ├── README.md                       # This file
 ```
 
+## Download Trained Model
+The trained model used in this project can be downloaded here:  
+[Download Model](https://drive.google.com/file/d/17gJSJSdHc8dAgHoEyQPyiIwIwSb6TLjI/view?usp=sharing)
+
+
 ## ⚙️ Dependencies
 
 ### Backend
