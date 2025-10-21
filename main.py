@@ -1,6 +1,7 @@
 from flask import Flask, render_template, request
 import pandas as pd
 import matplotlib
+
 matplotlib.use('Agg')
 import matplotlib.pyplot as plt
 import numpy as np
@@ -13,6 +14,7 @@ app = Flask(__name__)
 # Ensure directories exist
 os.makedirs('static', exist_ok=True)
 os.makedirs('models', exist_ok=True)
+os.makedirs('templates', exist_ok=True)
 
 MODEL_PATH = "models/random_forest_log_model.pkl"
 MODEL_FILE_ID = "1KatsClmhiVf4uGogExjE7ioW2VMUr4yR"
@@ -21,31 +23,37 @@ MODEL_FILE_ID = "1KatsClmhiVf4uGogExjE7ioW2VMUr4yR"
 _model = None
 
 
+# Custom Jinja2 filter for number formatting
+@app.template_filter('format_number')
+def format_number(value):
+    return "{:,}".format(int(value))
+
+
 def get_model():
     """Lazy load the model - downloads and loads only when first needed."""
     global _model
-    
+
     if _model is not None:
         return _model
-    
+
     # Download model if not present
     if not os.path.exists(MODEL_PATH):
         print("Model not found locally. Downloading from Google Drive...")
         try:
-            gdown.download(f"https://drive.google.com/uc?id={MODEL_FILE_ID}", 
-                          MODEL_PATH, quiet=False)
+            gdown.download(f"https://drive.google.com/uc?id={MODEL_FILE_ID}",
+                           MODEL_PATH, quiet=False)
             print("✅ Model downloaded successfully!")
         except Exception as e:
             print(f"❌ Error downloading model: {e}")
             raise Exception(f"Failed to download model: {e}")
     else:
         print("✅ Model already exists locally.")
-    
+
     # Load the model
     print("Loading model...")
     _model = joblib.load(MODEL_PATH)
     print("✅ Model loaded successfully!")
-    
+
     return _model
 
 
@@ -103,7 +111,7 @@ def index():
         try:
             # Get the model (downloads if needed)
             model = get_model()
-            
+
             features = ['MedInc', 'HouseAge', 'AveRooms', 'AveBedrms',
                         'Population', 'AveOccup', 'Latitude', 'Longitude']
 
@@ -132,4 +140,4 @@ def health():
 
 
 if __name__ == '__main__':
-    app.run(debug=False)
+    app.run(debug=True)
