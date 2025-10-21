@@ -8,7 +8,7 @@ import joblib
 import os
 import urllib.request
 import os
-
+import gdown
 app = Flask(__name__)
 
 # Ensure directories exist
@@ -18,17 +18,19 @@ os.makedirs('models', exist_ok=True)
 MODEL_PATH = "models/random_forest_log_model.pkl"
 MODEL_URL = os.environ.get('MODEL_URL')
 
+
 def download_model():
     """Download model from Google Drive if not present."""
     if not os.path.exists(MODEL_PATH):
         print("Model not found locally. Downloading from Google Drive...")
         try:
-            # Download with progress
-            urllib.request.urlretrieve(MODEL_URL, MODEL_PATH)
+            # Use gdown for reliable Google Drive downloads
+            file_id = "1KatsClmhiVf4uGogExjE7ioW2VMUr4yR"
+            gdown.download(f"https://drive.google.com/uc?id={file_id}", MODEL_PATH, quiet=False)
             print("✅ Model downloaded successfully!")
         except Exception as e:
             print(f"❌ Error downloading model: {e}")
-            raise Exception("Failed to download model. Please check the MODEL_URL.")
+            raise Exception("Failed to download model. Please check the file ID.")
     else:
         print("✅ Model already exists locally.")
 
