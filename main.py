@@ -7,6 +7,7 @@ import numpy as np
 import joblib
 import os
 import urllib.request
+import os
 
 app = Flask(__name__)
 
@@ -15,7 +16,7 @@ os.makedirs('static', exist_ok=True)
 os.makedirs('models', exist_ok=True)
 
 MODEL_PATH = "models/random_forest_log_model.pkl"
-MODEL_URL = 'https://drive.google.com/file/d/17gJSJSdHc8dAgHoEyQPyiIwIwSb6TLjI/view?usp=sharing'
+MODEL_URL = os.environ.get('MODEL_URL')
 
 def download_model():
     """Download model from Google Drive if not present."""
