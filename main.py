@@ -15,7 +15,7 @@ app = Flask(__name__)
 os.makedirs('static', exist_ok=True)
 os.makedirs('models', exist_ok=True)
 
-MODEL_PATH = "models/random_forest_log_model.pkl"
+MODEL_PATH = "random_forest_log_model.pkl"
 MODEL_URL = os.environ.get('MODEL_URL')
 
 
