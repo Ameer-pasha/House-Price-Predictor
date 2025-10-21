@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>California Housing Predictor</title>
+    <!-- Load Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Configure Tailwind for Inter font -->
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap');
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f3f4f6; /* Light gray background */
+        }
+        /* Custom styling for better focus */
+        input[type="text"]:focus, input[type="number"]:focus {
+            outline: none;
+            box-shadow: 0 0 0 2px #4f46e5; /* Indigo focus ring */
+        }
+    </style>
+</head>
+<body class="min-h-screen flex items-center justify-center p-4">
+
+    <!-- Increased max-w-4xl to accommodate the wider, multi-column layout -->
+    <div class="w-full max-w-4xl bg-white shadow-xl rounded-xl p-8 space-y-8">
+        <!-- Title and Description -->
+        <header class="text-center">
+            <h1 class="text-3xl font-extrabold text-gray-900">
+                California House Price Predictor
+            </h1>
+            <p class="mt-2 text-gray-500">
+                Enter the census block characteristics below to estimate the median house value.
+            </p>
+        </header>
+
+        <!-- Prediction Form -->
+        <form method="POST" class="space-y-6">
+            <!-- Consolidated grid: 1 column (mobile), 2 columns (tablet), 4 columns (desktop) -->
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+
+                <!-- Input Group 1: Median Income -->
+                <div>
+                    <label for="MedInc" class="block text-sm font-medium text-gray-700">
+                        Median Income
+                    </label>
+                    <div class="mt-1">
+                        <input type="number" name="MedInc" id="MedInc" placeholder="e.g., 5.0" required
+                               min="0"
+                               class="numeric-positive w-full p-3 border border-gray-300 rounded-lg focus:ring-indigo-500 focus:border-indigo-500 transition duration-150 ease-in-out">
+                    </div>
+                    <p class="mt-1 text-xs text-gray-500">
+                        Income of household heads (in $10,000s).
+                    </p>
+                </div>
+
+                <!-- Input Group 2: House Age -->
+                <div>
+                    <label for="HouseAge" class="block text-sm font-medium text-gray-700">
+                        House Age
+                    </label>
+                    <div class="mt-1">
+                        <input type="number" name="HouseAge" id="HouseAge" placeholder="e.g., 20" required
+                               min="0"
+                               class="numeric-positive w-full p-3 border border-gray-300 rounded-lg focus:ring-indigo-500 focus:border-indigo-500 transition duration-150 ease-in-out">
+                    </div>
+                    <p class="mt-1 text-xs text-gray-500">
+                        Median age of the housing unit (in years).
+                    </p>
+                </div>
+
+                <!-- Input Group 3: Average Rooms -->
+                <div>
+                    <label for="AveRooms" class="block text-sm font-medium text-gray-700">
+                        Avg. Rooms
+                    </label>
+                    <div class="mt-1">
+                        <input type="number" name="AveRooms" id="AveRooms" placeholder="e.g., 6.0" required
+                               min="0"
+                               class="numeric-positive w-full p-3 border border-gray-300 rounded-lg focus:ring-indigo-500 focus:border-indigo-500 transition duration-150 ease-in-out">
+                    </div>
+                    <p class="mt-1 text-xs text-gray-500">
+                        Average number of rooms per household.
+                    </p>
+                </div>
+
+                <!-- Input Group 4: Average Bedrooms -->
+                <div>
+                    <label for="AveBedrms" class="block text-sm font-medium text-gray-700">
+                        Avg. Bedrooms
+                    </label>
+                    <div class="mt-1">
+                        <input type="number" name="AveBedrms" id="AveBedrms" placeholder="e.g., 1.2" required
+                               min="0"
+                               class="numeric-positive w-full p-3 border border-gray-300 rounded-lg focus:ring-indigo-500 focus:border-indigo-500 transition duration-150 ease-in-out">
+                    </div>
+                    <p class="mt-1 text-xs text-gray-500">
+                        Average number of bedrooms per household.
+                    </p>
+                </div>
+
+                <!-- Input Group 5: Population -->
+                <div>
+                    <label for="Population" class="block text-sm font-medium text-gray-700">
+                        Population
+                    </label>
+                    <div class="mt-1">
+                        <input type="number" name="Population" id="Population" placeholder="e.g., 1500" required
+                               min="0"
+                               class="numeric-positive w-full p-3 border border-gray-300 rounded-lg focus:ring-indigo-500 focus:border-indigo-500 transition duration-150 ease-in-out">
+                    </div>
+                    <p class="mt-1 text-xs text-gray-500">
+                        Total population of the block group.
+                    </p>
+                </div>
+
+                <!-- Input Group 6: Average Occupancy -->
+                <div>
+                    <label for="AveOccup" class="block text-sm font-medium text-gray-700">
+                        Avg. Occupancy
+                    </label>
+                    <div class="mt-1">
+                        <input type="number" name="AveOccup" id="AveOccup" placeholder="e.g., 3.0" required
+                               min="0"
+                               class="numeric-positive w-full p-3 border border-gray-300 rounded-lg focus:ring-indigo-500 focus:border-indigo-500 transition duration-150 ease-in-out">
+                    </div>
+                    <p class="mt-1 text-xs text-gray-500">
+                        Average number of people in a house.
+                    </p>
+                </div>
+
+                <!-- Input Group 7: Latitude -->
+                <div>
+                    <label for="Latitude" class="block text-sm font-medium text-gray-700">
+                        Latitude
+                    </label>
+                    <div class="mt-1">
+                        <input type="number" name="Latitude" id="Latitude" placeholder="e.g., 34.0" required value="34.0"
+                               class="numeric-general w-full p-3 border border-gray-300 rounded-lg focus:ring-indigo-500 focus:border-indigo-500 transition duration-150 ease-in-out">
+                    </div>
+                    <p class="mt-1 text-xs text-gray-500">
+                        North-south position of the block.
+                    </p>
+                </div>
+
+                <!-- Input Group 8: Longitude -->
+                <div>
+                    <label for="Longitude" class="block text-sm font-medium text-gray-700">
+                        Longitude
+                    </label>
+                    <div class="mt-1">
+                        <input type="number" name="Longitude" id="Longitude" placeholder="e.g., -118.5" required value="-119.0"
+                               class="numeric-general w-full p-3 border border-gray-300 rounded-lg focus:ring-indigo-500 focus:border-indigo-500 transition duration-150 ease-in-out">
+                    </div>
+                    <p class="mt-1 text-xs text-gray-500">
+                        East-west position of the block.
+                    </p>
+                </div>
+            </div>
+
+            <!-- Submit Button (now directly follows the inputs) -->
+            <div class="pt-6">
+                <button type="submit"
+                        class="w-full flex justify-center py-3 px-4 border border-transparent rounded-lg shadow-md text-lg font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 transition duration-200">
+                    Predict House Price
+                </button>
+            </div>
+        </form>
+
+        <!-- Prediction Result Display -->
+        {% if prediction %}
+        <div id="prediction-result" class="mt-8 p-6 bg-white border border-indigo-200 rounded-xl shadow-xl">
+            <h2 class="text-2xl font-bold text-indigo-800 mb-4 border-b pb-2">
+                Prediction Results
+            </h2>
+
+            <!-- Sanity Check Warning (using 'warning' variable from Flask) -->
+            {% if warning %}
+            <div class="mb-4 p-4 bg-orange-100 border border-orange-400 text-orange-800 rounded-lg font-medium">
+                ⚠️ **Sanity Check Warning:** {{ warning }}
+            </div>
+            {% endif %}
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6 items-start">
+
+                <!-- Left Column: Price Result -->
+                <div class="p-4 bg-green-50 border-l-4 border-green-500 rounded-lg shadow-inner">
+                    <h3 class="text-xl font-semibold text-green-800">
+                        ✅ Predicted Median House Value
+                    </h3>
+                    <p class="mt-2 text-4xl font-extrabold text-green-900">
+                        <span class="text-2xl font-normal text-green-700 mr-1">$</span>{{ prediction }}
+                    </p>
+                    <p class="mt-1 text-sm text-green-700">
+                        (Price in hundreds of thousands of dollars, e.g., 5.0 = $500,000)
+                    </p>
+                </div>
+
+
+                <!-- Right Column: Graph -->
+                <div class="flex flex-col">
+                    <h3 class="text-lg font-semibold text-gray-700 mb-2">Prediction Graph:</h3>
+                    <!-- Image of the Actual vs Prediction graph -->
+                    <img src="{{ url_for('static', filename='actual_vs_pred.png') }}" alt="Prediction Graph"
+                         class="w-full h-auto rounded-lg shadow-xl border border-gray-200 object-contain">
+                    <p class="mt-2 text-xs text-gray-500">
+                        This graph visually compares actual prices to the model's predictions.
+                    </p>
+                </div>
+
+            </div>
+        </div>
+        {% endif %}
+
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // Function to prevent 'e', 'E', '+', and '-' keys (for positive-only fields)
+            const preventScientificAndNegative = (event) => {
+                const invalidKeys = ['e', 'E', '+', '-'];
+                if (invalidKeys.includes(event.key)) {
+                    event.preventDefault();
+                }
+            };
+
+            // Function to prevent only 'e' and 'E' keys (for general numeric fields like Latitude/Longitude)
+            const preventScientific = (event) => {
+                const invalidKeys = ['e', 'E'];
+                if (invalidKeys.includes(event.key)) {
+                    event.preventDefault();
+                }
+            };
+
+            // Apply validation to positive-only fields (MedInc, HouseAge, AveRooms, etc.)
+            document.querySelectorAll('.numeric-positive').forEach(input => {
+                input.addEventListener('keydown', preventScientificAndNegative);
+                // HTML constraint for positive values
+                input.setAttribute('min', '0');
+            });
+
+            // Apply validation to general numeric fields (Latitude, Longitude)
+            document.querySelectorAll('.numeric-general').forEach(input => {
+                input.addEventListener('keydown', preventScientific);
+            });
+        });
+    </script>
+</body>
+</html>
