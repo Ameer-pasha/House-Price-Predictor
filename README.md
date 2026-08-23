@@ -7,6 +7,7 @@ This is a web application designed to predict the median house value for a given
 The interface is built using pure HTML, JavaScript, and styled with Tailwind CSS for a responsive and modern look.
 
 
+
 ## 📸 App Preview
 
 ![Prediction Plot](assets/ss2.png)
